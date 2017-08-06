@@ -1,6 +1,6 @@
 
 var tiles = [];
-var riverStartTiles = [];
+var clouds = [];
 
 var numberOfTiles = 300;
 
@@ -16,8 +16,9 @@ var heightLevel1;
 var heightLevel2;
 var heightLevel3;
 var heightLevel4;
+var heightLevel5;
 
-var treeline = 1;
+
 
 function setup() {
 	createCanvas(600, 600);
@@ -27,10 +28,15 @@ function setup() {
 	originX = canvasWidth/2;
 	originY = canvasHeight/2;
 
+	//HeightLevel is determined by proximity to the origin.
+	heightLevel1 = dist(0,0,canvasWidth/2,canvasHeight/2)*0.3;
+	heightLevel2 = dist(0,0,canvasWidth/2,canvasHeight/2)*0.5;
+	heightLevel3 = dist(0,0,canvasWidth/2,canvasHeight/2)*0.85;
+	heightLevel4 = dist(0,0,canvasWidth/2,canvasHeight/2)*0.90;
+	heightLevel5 = dist(0,0,canvasWidth/2,canvasHeight/2)*0.98;
 
-
-	background(200);
 	noLoop();
+	background(200);
 	generateMap();
 }
 
@@ -46,7 +52,9 @@ function generateMap() {
 	createTiles();
 	colorTiles();
 	createDetails();
+	createClouds();
 	displayTiles();
+	displayClouds();
 }
 
 function createTiles(){
@@ -117,15 +125,27 @@ function connectPoints() {
 
 function colorTiles() {
 	createCoast();
-
-	for (var i = 0; i < 20; i++) {
-		elevateArea(tiles[int(random(20,numberOfTiles-20))][int(random(20,numberOfTiles-20))],random(100,400), 1,10);
+	for (var i = 0; i < 80; i++) {
+		elevateArea(tiles[int(random(20,numberOfTiles-20))][int(random(20,numberOfTiles-20))],random(100,600), 5,15);
 	}
 
 }
 
 function createDetails() {
-	for (var i = 0; i < 15; i++) {
-		createRiver(tiles[int(random(50,numberOfTiles-50))][int(random(50,numberOfTiles-50))],1.5);
+	for (var i = 0; i < 20; i++) {
+		createRiver(tiles[int(random(50,numberOfTiles-50))][int(random(50,numberOfTiles-50))],3);
+	}
+}
+
+function createClouds() {
+	var numberOfClouds = random(5,15);
+	for (var i = 0; i < numberOfClouds; i++) {
+		clouds.push(new Cloud(random(canvasWidth),random(canvasHeight)));
+	}
+}
+
+function displayClouds() {
+	for (var i = 0; i < clouds.length; i++) {
+		clouds[i].draw();
 	}
 }

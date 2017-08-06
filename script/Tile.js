@@ -46,15 +46,40 @@ function Tile(x,y,corner,radius) {
 	this.smooth = function(){
 		var slope = 10000;
 		var stepestTile;
+		var tilePos;
 		for (var i = 0; i < this.neighbors.length; i++) {
 			if(this.neighbors[i].elevation < slope){
 				slope = this.neighbors[i].elevation;
 				stepestTile = this.neighbors[i];
+				tilePos = i;
 			}
 		}
-		strokeWeight(slope*0.005);
-		stroke(red(this.color),green(this.color),blue(this.color),10+slope);
-		line(stepestTile.x, stepestTile.y, x, y);
+		if(stepestTile == null){
+			return;
+		}
+		strokeWeight(0.5);
+		if((tilePos == 4 || tilePos == 5 || tilePos == 6) && this.elevation > (heightLevel2 + random(0,50))){
+			this.color = color(0,0.35*slope);
+			fill(this.color);
+			beginShape();
+			var angle = TWO_PI/6;
+			var a = 0;
+			for(var i = 0; i < 8; i++){
+				vertex(x+ cos(a) * radius, y + sin(a) * radius);
+				a += angle;
+				vertex(x + cos(a) * radius, y +  sin(a) * radius);
+				a += angle;
+			}
+			endShape(CLOSE);
+			/*stroke(0,0.2*slope);
+			line(stepestTile.x, stepestTile.y, x, y);*/
+		}else {
+			/*stroke(red(this.color),green(this.color),blue(this.color));
+			line(stepestTile.x, stepestTile.y, x, y);*/
+		}
+		noStroke();
+
+
 	}
 
 	this.makeWater = function(){
@@ -95,20 +120,24 @@ function Tile(x,y,corner,radius) {
 }
 
 function calcColor(elevation){
-	if(elevation < (dist(0,0,canvasWidth/2,canvasHeight/2)*0.3 + random(-130,50))){
+	if(elevation < (heightLevel1 + random(-130,50))){
 		return color(random(200,249),random(200,225),random(130,145));//beach
 	}
-	else if(elevation < (dist(0,0,canvasWidth/2,canvasHeight/2)*0.75 + random(-50,50))){
+	else if(elevation < (heightLevel2 + random(-50,50))){
 		return color(random(25,38),random(100,150),random(25,38));//forrest green
+		//return color(0,random(90,120),random(45,51));// dark forrest green
 	}
-	else if(elevation < (dist(0,0,canvasWidth/2,canvasHeight/2)*0.95 + random(-50,50))){
-		return color(0,random(90,120),random(45,51));
+	else if(elevation < (heightLevel3 + random(-20,20))){
+		return color(0,random(90,120),random(45,51));// dark forrest green
+		//return color(random(25,38),random(100,150),random(25,38));//forrest green
+		//return color(random(28,35),random(110,130),random(28,35));//forrest green less random
 	}
-	else if(elevation < (dist(0,0,canvasWidth/2,canvasHeight/2)*0.98 + random(-20,20))){
-		return color(random(70,110));
+	else if(elevation < (heightLevel4 + random(-20,20))){
+		//return color(180,random(200,210),180);// light green
+		return color(random(90,120));
 	}
-	else if(elevation < (dist(0,0,canvasWidth/2,canvasHeight/2)*0.99 + random(-20,0))){
-		return color(random(80,170));
+	else if(elevation < (heightLevel5 + random(-20,0))){
+		return color(random(100,140));
 	}
 	else {
 		return color(random(200,250));
