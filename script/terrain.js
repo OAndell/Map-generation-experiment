@@ -29,8 +29,6 @@ function createLake(currentTile, size) {
 	createLake(currentTile.neighbors[next], size);
 }
 
-
-
 function elevateArea(currentTile, size, min,max){
 	if(currentTile.corner){
 		return;
@@ -57,7 +55,7 @@ function elevateArea(currentTile, size, min,max){
 				}
 			}
 		}
-		elevation -= 0.05;
+		elevation -= 0.03;
 	}
 }
 

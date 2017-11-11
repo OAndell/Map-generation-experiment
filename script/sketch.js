@@ -4,8 +4,8 @@ var clouds = [];
 
 var numberOfTiles = 300;
 
-var canvasWidth;
-var canvasHeight;
+var canvasWidth = 600;
+var canvasHeight = 600;
 
 var drawstep = 0;
 
@@ -21,9 +21,7 @@ var heightLevel5;
 
 
 function setup() {
-	createCanvas(600, 600);
-	canvasWidth = canvas.width/2;
-	canvasHeight = canvas.height/2;
+	createCanvas(canvasWidth, canvasHeight);
 
 	originX = canvasWidth/2;
 	originY = canvasHeight/2;
